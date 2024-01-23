@@ -40,6 +40,7 @@ android {
 
 dependencies {
     implementation(project(":core:data"))
+    implementation(project(":core:domain"))
 
     val navVersion = "2.7.6"
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
