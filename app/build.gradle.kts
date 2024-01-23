@@ -1,8 +1,14 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
 }
 
+val keysPropertiesFile: File = rootProject.file("keys.properties")
+val keysProperties: Properties = Properties().apply {
+    load(keysPropertiesFile.inputStream())
+}
 android {
     namespace = "com.example.marvelapp"
     compileSdk = 34
@@ -15,6 +21,10 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "PUBLIC_KEY", keysProperties["PUBLIC_KEY"]?.toString().orEmpty())
+        buildConfigField("String", "PRIVATE_KEY", keysProperties["PRIVATE_KEY"]?.toString().orEmpty())
+        buildConfigField("String", "BASE_URL", "\"https://gateway.marvel.com:443/v1/public/\"")
     }
 
     buildTypes {
@@ -32,6 +42,10 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+    buildFeatures {
+        buildConfig = true
+        viewBinding = true
     }
 }
 
