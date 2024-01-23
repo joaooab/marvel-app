@@ -1,5 +1,3 @@
-import java.util.Properties
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -42,6 +40,10 @@ android {
 
 dependencies {
     implementation(project(":core:data"))
+
+    val navVersion = "2.7.6"
+    implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
+    implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
 
     implementation("io.insert-koin:koin-android:3.5.3")
     implementation("androidx.core:core-ktx:1.12.0")
