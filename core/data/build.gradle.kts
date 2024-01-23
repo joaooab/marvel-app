@@ -31,6 +31,8 @@ android {
 }
 
 dependencies {
+    api(project(":core:model"))
+
     implementation("io.insert-koin:koin-android:3.5.3")
 
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.9.0"))

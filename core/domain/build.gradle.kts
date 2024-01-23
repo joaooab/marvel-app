@@ -15,5 +15,7 @@ android {
 }
 
 dependencies {
+    api(project(":core:model"))
+
     implementation("io.insert-koin:koin-android:3.5.3")
 }
