@@ -13,9 +13,8 @@ class GetComicsPagingUseCaseImpl(
 ) : GetComicsPagingUseCase {
 
     override fun invoke(pagingConfig: PagingConfig): Flow<PagingData<Comic>> {
-        val pagingSource = repository.getComics()
         return Pager(config = pagingConfig) {
-            pagingSource
+            repository.getComics()
         }.flow
     }
 }
