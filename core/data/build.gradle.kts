@@ -34,6 +34,7 @@ dependencies {
     api(project(":core:model"))
 
     implementation("io.insert-koin:koin-android:3.5.3")
+    implementation("androidx.paging:paging-common-ktx:3.2.1")
 
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.9.0"))
     implementation("com.squareup.okhttp3:logging-interceptor")

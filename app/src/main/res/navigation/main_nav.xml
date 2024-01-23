@@ -9,6 +9,6 @@
         android:id="@+id/listFragment"
         android:name="com.example.marvelapp.list.ListFragment"
         android:label="@string/comics_title"
-        tools:layout="@layout/fragment_list_comics" />
+        tools:layout="@layout/fragment_list" />
 
 </navigation>

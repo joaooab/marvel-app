@@ -5,6 +5,8 @@ plugins {
 
 android {
     namespace = "com.example.core.domain"
+    compileSdk = 34
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -15,7 +17,8 @@ android {
 }
 
 dependencies {
-    api(project(":core:model"))
+    implementation(project(":core:data"))
 
     implementation("io.insert-koin:koin-android:3.5.3")
+    implementation("androidx.paging:paging-common-ktx:3.2.1")
 }

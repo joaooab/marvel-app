@@ -47,6 +47,9 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
 
+    implementation("androidx.paging:paging-runtime-ktx:3.2.1")
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+
     implementation("io.insert-koin:koin-android:3.5.3")
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
