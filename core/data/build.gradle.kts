@@ -18,14 +18,22 @@ android {
         buildConfigField("String", "PRIVATE_KEY", keysProperties["PRIVATE_KEY"]?.toString().orEmpty())
         buildConfigField("String", "BASE_URL", "\"https://gateway.marvel.com:443/v1/public/\"")
     }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = "17"
+    }
     buildFeatures {
         buildConfig = true
     }
 }
 
 dependencies {
+    implementation("io.insert-koin:koin-android:3.5.3")
+
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.9.0"))
-    implementation("com.squareup.okhttp3:okhttp")
     implementation("com.squareup.okhttp3:logging-interceptor")
 
     val retrofitVersion = "2.9.0"
