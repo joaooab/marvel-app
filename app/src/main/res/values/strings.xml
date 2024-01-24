@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">marvelapp</string>
-    <string name="comics_title">Comics</string>
-    <string name="error_generic">Something went wrong. Try again</string>
-    <string name="try_again">Try again</string>
-    <string name="label_author">Author:</string>
-    <string name="label_publication">Publication date:</string>
-    <string name="label_price">Price:</string>
-    <string name="label_description">Description:</string>
-    <string name="menu_search">Search</string>
+    <string name="comics_title">Quadrinhos</string>
+    <string name="error_generic">Algo deu errado. Tente novamente</string>
+    <string name="try_again">Tentar novamente</string>
+    <string name="label_author">Autor:</string>
+    <string name="label_publication">Data de publicação:</string>
+    <string name="label_price">Preço:</string>
+    <string name="label_description">Descrição:</string>
+    <string name="menu_search">Busca</string>
 </resources>
