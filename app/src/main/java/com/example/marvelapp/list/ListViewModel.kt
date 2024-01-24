@@ -18,7 +18,7 @@ class ListViewModel(
     private val getComicsPagingUseCase: GetComicsPagingUseCase,
 ) : ViewModel() {
 
-    private val _query = MutableStateFlow<String>("")
+    private val _query = MutableStateFlow("")
 
     val pagingDataFlow = _query.debounce(300)
         .flatMapLatest { query ->

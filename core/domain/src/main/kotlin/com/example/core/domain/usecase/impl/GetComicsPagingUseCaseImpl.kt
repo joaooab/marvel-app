@@ -8,7 +8,7 @@ import com.example.core.domain.usecase.GetComicsPagingUseCase
 import com.example.core.model.Comic
 import kotlinx.coroutines.flow.Flow
 
-class GetComicsPagingUseCaseImpl(
+internal class GetComicsPagingUseCaseImpl(
     private val repository: MarvelRepository
 ) : GetComicsPagingUseCase {
 
