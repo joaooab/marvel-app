@@ -12,9 +12,9 @@ class GetComicsPagingUseCaseImpl(
     private val repository: MarvelRepository
 ) : GetComicsPagingUseCase {
 
-    override fun invoke(pagingConfig: PagingConfig): Flow<PagingData<Comic>> {
+    override fun invoke(query: String, pagingConfig: PagingConfig): Flow<PagingData<Comic>> {
         return Pager(config = pagingConfig) {
-            repository.getComics()
+            repository.getComics(query)
         }.flow
     }
 }

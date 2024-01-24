@@ -2,8 +2,13 @@ package com.example.marvelapp.list
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
+import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -39,6 +44,7 @@ class ListFragment : Fragment(R.layout.fragment_list) {
         super.onViewCreated(view, savedInstanceState)
         setupAdapter()
         setupTryAgain()
+        setupMenu()
         collectComics()
         collectListState()
     }
@@ -46,7 +52,7 @@ class ListFragment : Fragment(R.layout.fragment_list) {
     private fun collectComics() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.comicPagingData().collect { pagingData ->
+                viewModel.pagingDataFlow.collect { pagingData ->
                     listAdapter.submitData(pagingData)
                 }
             }
@@ -108,6 +114,34 @@ class ListFragment : Fragment(R.layout.fragment_list) {
         binding.includeErrorState.buttonRetry.setOnClickListener {
             listAdapter.refresh()
         }
+    }
+
+    private fun setupMenu() {
+        requireActivity().addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_search, menu)
+                val searchItem = menu.findItem(R.id.search)
+                val searchView = searchItem.actionView as SearchView
+                searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(query: String?): Boolean {
+                        return true
+                    }
+
+                    override fun onQueryTextChange(newText: String?): Boolean {
+                        viewModel.search(newText)
+                        return true
+                    }
+                })
+            }
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.search -> {
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }, viewLifecycleOwner)
     }
 
     private fun toggleShimmerVisibility(

@@ -8,7 +8,8 @@ import com.example.core.data.source.ComicsPagingSource
 
 class MarvelRepositoryImpl(private val api: MarvelApi) : MarvelRepository {
 
-    override fun getComics() = ComicsPagingSource(
+    override fun getComics(query: String) = ComicsPagingSource(
+        query = query,
         fetchComics = { queries ->
             safeApiCallOrNull {
                 api.fetchComics(queries)

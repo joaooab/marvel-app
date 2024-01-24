@@ -10,5 +10,4 @@ import org.koin.dsl.module
 val dataModule = module {
     single { NetworkConfig.create<MarvelApi>() }
     single<MarvelRepository> { MarvelRepositoryImpl(get()) }
-    factory { ComicsPagingSource(get()) }
 }

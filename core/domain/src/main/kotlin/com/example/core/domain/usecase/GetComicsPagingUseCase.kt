@@ -7,5 +7,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface GetComicsPagingUseCase {
 
-    operator fun invoke(pagingConfig: PagingConfig): Flow<PagingData<Comic>>
+    operator fun invoke(query: String, pagingConfig: PagingConfig): Flow<PagingData<Comic>>
 }

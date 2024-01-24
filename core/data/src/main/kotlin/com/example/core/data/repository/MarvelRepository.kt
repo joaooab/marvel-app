@@ -6,7 +6,7 @@ import com.example.core.model.ComicDetail
 
 interface MarvelRepository {
 
-    fun getComics(): PagingSource<Int, Comic>
+    fun getComics(query: String): PagingSource<Int, Comic>
 
     suspend fun getComicDetail(id: String): ComicDetail?
 }
