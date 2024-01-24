@@ -17,9 +17,13 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.example.marvelapp.detail.DetailFragment"
+        android:label="{title}"
         tools:layout="@layout/fragment_detail">
         <argument
             android:name="id"
+            app:argType="string" />
+        <argument
+            android:name="title"
             app:argType="string" />
     </fragment>
 

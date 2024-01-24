@@ -133,11 +133,13 @@ class ListFragment : Fragment(R.layout.fragment_list) {
                     }
                 })
             }
+
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.search -> {
                         true
                     }
+
                     else -> false
                 }
             }
@@ -157,7 +159,12 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 
     private fun navigateToDetail(comic: Comic) {
         findNavController()
-            .navigate(ListFragmentDirections.actionListFragmentToDetailFragment(comic.id))
+            .navigate(
+                ListFragmentDirections.actionListFragmentToDetailFragment(
+                    comic.id,
+                    comic.title
+                )
+            )
     }
 
     companion object {
