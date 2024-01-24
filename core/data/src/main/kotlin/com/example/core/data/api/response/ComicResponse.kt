@@ -1,5 +1,7 @@
-package com.example.core.data.api
+package com.example.core.data.api.response
 
+import com.example.core.data.api.ThumbnailResponse
+import com.example.core.data.api.toModel
 import com.example.core.model.Comic
 import com.google.gson.annotations.SerializedName
 

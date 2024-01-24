@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.StyleSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -21,12 +21,13 @@ import com.example.marvelapp.R
 import com.example.marvelapp.databinding.FragmentDetailBinding
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     private lateinit var binding: FragmentDetailBinding
     private val args by navArgs<DetailFragmentArgs>()
-    private val viewModel: DetailViewModel by viewModel()
+    private val viewModel: DetailViewModel by viewModel { parametersOf(args.id) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,16 +39,21 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupTryAgain()
         collectUiState()
-        Log.i("ID", "onViewCreated: ${args.id}")
-        viewModel.load(args.id)
+    }
+
+    private fun setupTryAgain() {
+        binding.includeErrorState.buttonRetry.setOnClickListener {
+            viewModel.tryAgain()
+        }
     }
 
     private fun collectUiState() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
-                    when (state) {
+                    binding.flipper.displayedChild = when (state) {
                         DetailUiState.Error -> errorState()
                         DetailUiState.Loading -> loadingState()
                         is DetailUiState.Success -> successState(state.comic)
@@ -57,7 +63,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         }
     }
 
-    private fun successState(comic: ComicDetail) = with(binding) {
+    private fun successState(comic: ComicDetail): Int = with(binding.includeSuccessState) {
         textAuthor.text = formatBoldLabel(R.string.label_author, comic.author)
         textPublication.text = formatBoldLabel(R.string.label_publication, comic.publicationDate)
         textPrice.text = formatBoldLabel(R.string.label_price, comic.price)
@@ -66,14 +72,19 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             .load(comic.thumbnail)
             .fallback(R.drawable.ic_image_error)
             .into(imageDetail)
+
+        toggleShimmerVisibility(false)
+        return FLIPPER_CHILD_COMICS
     }
 
-    private fun loadingState() {
-
+    private fun loadingState(): Int {
+        toggleShimmerVisibility(true)
+        return FLIPPER_CHILD_LOADING
     }
 
-    private fun errorState() {
-
+    private fun errorState(): Int {
+        toggleShimmerVisibility(false)
+        return FLIPPER_CHILD_ERROR
     }
 
     private fun formatBoldLabel(@StringRes labelResId: Int, content: String): SpannableString {
@@ -88,5 +99,22 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         )
 
         return spannableString
+    }
+
+    private fun toggleShimmerVisibility(
+        visibility: Boolean
+    ) = with(binding.includeLoadingState.shimmerComics) {
+        isVisible = visibility
+        if (visibility) {
+            startShimmer()
+        } else {
+            stopShimmer()
+        }
+    }
+
+    companion object {
+        private const val FLIPPER_CHILD_LOADING = 0
+        private const val FLIPPER_CHILD_COMICS = 1
+        private const val FLIPPER_CHILD_ERROR = 2
     }
 }

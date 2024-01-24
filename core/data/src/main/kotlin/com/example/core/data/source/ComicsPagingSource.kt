@@ -2,13 +2,14 @@ package com.example.core.data.source
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.core.data.api.MarvelApi
-import com.example.core.data.api.toModel
+import com.example.core.data.api.response.ComicResponse
+import com.example.core.data.api.response.DataWrapperResponse
+import com.example.core.data.api.response.toModel
 import com.example.core.model.Comic
 
 class ComicsPagingSource(
-    private val api: MarvelApi,
-): PagingSource<Int, Comic>() {
+    private val fetchComics: suspend (Map<String, String>) -> DataWrapperResponse<ComicResponse>?,
+) : PagingSource<Int, Comic>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Comic> {
         return try {
@@ -17,8 +18,7 @@ class ComicsPagingSource(
                 "offset" to offset.toString()
             )
 
-            val response = api.fetchComics(queries)
-
+            val response = fetchComics(queries) ?: throw IllegalStateException()
             val responseOffset = response.data.offset
             val total = response.data.total
 

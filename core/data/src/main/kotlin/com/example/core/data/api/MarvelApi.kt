@@ -1,5 +1,8 @@
 package com.example.core.data.api
 
+import com.example.core.data.api.response.ComicDetailResponse
+import com.example.core.data.api.response.ComicResponse
+import com.example.core.data.api.response.DataWrapperResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.QueryMap

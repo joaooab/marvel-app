@@ -65,7 +65,7 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 
                         is LoadState.NotLoading -> {
                             toggleShimmerVisibility(false)
-                            FLIPPER_CHILD_CHARACTERS
+                            FLIPPER_CHILD_COMICS
                         }
 
                         is LoadState.Error -> {
@@ -80,8 +80,6 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 
     private fun setupAdapter() {
         with(binding.recyclerView) {
-            scrollToPosition(0)
-            setHasFixedSize(true)
             val concatAdapter = listAdapter.withLoadStateFooter(
                 footer = ListLoadStateAdapter {
                     listAdapter.retry()
@@ -114,7 +112,7 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 
     private fun toggleShimmerVisibility(
         visibility: Boolean
-    ) = with(binding.includeLoadingState.shimmerCharacters) {
+    ) = with(binding.includeLoadingState.shimmerComics) {
         isVisible = visibility
         if (visibility) {
             startShimmer()
@@ -130,7 +128,7 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 
     companion object {
         private const val FLIPPER_CHILD_LOADING = 0
-        private const val FLIPPER_CHILD_CHARACTERS = 1
+        private const val FLIPPER_CHILD_COMICS = 1
         private const val FLIPPER_CHILD_ERROR = 2
         private const val FULL_SPAN_COUNT = 2
         private const val SINGLE_SPAN_COUNT = 1

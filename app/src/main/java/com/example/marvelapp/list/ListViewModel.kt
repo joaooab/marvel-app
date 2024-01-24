@@ -7,7 +7,7 @@ import androidx.paging.cachedIn
 import com.example.core.domain.usecase.GetComicsPagingUseCase
 
 class ListViewModel(
-    private val getComicsPagingUseCase: GetComicsPagingUseCase
+    private val getComicsPagingUseCase: GetComicsPagingUseCase,
 ) : ViewModel() {
 
     fun comicPagingData() = getComicsPagingUseCase(

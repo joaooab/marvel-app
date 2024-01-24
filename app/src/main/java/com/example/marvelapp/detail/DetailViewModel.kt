@@ -7,12 +7,23 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class DetailViewModel(private val repository: MarvelRepository) : ViewModel() {
+class DetailViewModel(
+    private val comicId: String,
+    private val repository: MarvelRepository,
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow<DetailUiState>(DetailUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
-    fun load(id: String) {
+    init {
+        load(comicId)
+    }
+
+    fun tryAgain() {
+        load(comicId)
+    }
+
+    private fun load(id: String) {
         viewModelScope.launch {
             val comic = repository.getComicDetail(id)
             if (comic == null) _uiState.emit(DetailUiState.Error)

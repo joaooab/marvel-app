@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/includeLoadingState"
-        layout="@layout/include_loading_state" />
+        layout="@layout/include_list_loading_state" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
