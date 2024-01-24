@@ -10,8 +10,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.ConcatAdapter
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.marvelapp.R
 import com.example.marvelapp.databinding.FragmentListBinding
+import com.example.marvelapp.list.ListAdapter.Companion.COMIC_VIEW_TYPE
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -75,10 +78,31 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 
     private fun setupAdapter() {
         listAdapter = ListAdapter()
+
         with(binding.recyclerView) {
             scrollToPosition(0)
             setHasFixedSize(true)
-            adapter = listAdapter
+            val concatAdapter = listAdapter.withLoadStateFooter(
+                footer = ListLoadStateAdapter {
+                    listAdapter.retry()
+                }
+            )
+            layoutManager = setupLayoutManager(concatAdapter)
+            adapter = concatAdapter
+        }
+    }
+
+    private fun setupLayoutManager(concatAdapter: ConcatAdapter): GridLayoutManager {
+        return GridLayoutManager(requireContext(), FULL_SPAN_COUNT).apply {
+            spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int): Int {
+                    return if (concatAdapter.getItemViewType(position) == COMIC_VIEW_TYPE) {
+                        FULL_SPAN_COUNT
+                    } else {
+                        SINGLE_SPAN_COUNT
+                    }
+                }
+            }
         }
     }
 
@@ -103,5 +127,7 @@ class ListFragment : Fragment(R.layout.fragment_list) {
         private const val FLIPPER_CHILD_LOADING = 0
         private const val FLIPPER_CHILD_CHARACTERS = 1
         private const val FLIPPER_CHILD_ERROR = 2
+        private const val FULL_SPAN_COUNT = 2
+        private const val SINGLE_SPAN_COUNT = 1
     }
 }

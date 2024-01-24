@@ -12,6 +12,8 @@ import com.example.marvelapp.databinding.ItemComicBinding
 
 class ListAdapter : PagingDataAdapter<Comic, ListAdapter.ViewHolder>(diffCallback) {
 
+    override fun getItemViewType(position: Int) = COMIC_VIEW_TYPE
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val itemBinding = ItemComicBinding.inflate(inflater, parent, false)
@@ -38,6 +40,8 @@ class ListAdapter : PagingDataAdapter<Comic, ListAdapter.ViewHolder>(diffCallbac
     }
 
     companion object {
+        const val COMIC_VIEW_TYPE = 1
+
         private val diffCallback = object : DiffUtil.ItemCallback<Comic>() {
             override fun areItemsTheSame(oldItem: Comic, newItem: Comic): Boolean {
                 return oldItem.title == newItem.title
