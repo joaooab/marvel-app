@@ -10,7 +10,9 @@ import com.example.core.model.Comic
 import com.example.marvelapp.R
 import com.example.marvelapp.databinding.ItemComicBinding
 
-class ListAdapter : PagingDataAdapter<Comic, ListAdapter.ViewHolder>(diffCallback) {
+class ListAdapter(
+    private val onItemClick: (Comic) -> Unit
+) : PagingDataAdapter<Comic, ListAdapter.ViewHolder>(diffCallback) {
 
     override fun getItemViewType(position: Int) = COMIC_VIEW_TYPE
 
@@ -36,6 +38,7 @@ class ListAdapter : PagingDataAdapter<Comic, ListAdapter.ViewHolder>(diffCallbac
                 .load(comic.thumbnail)
                 .fallback(R.drawable.ic_image_error)
                 .into(binding.image)
+            binding.root.setOnClickListener { onItemClick(comic) }
         }
     }
 

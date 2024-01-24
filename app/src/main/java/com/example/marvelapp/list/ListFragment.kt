@@ -9,9 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.core.model.Comic
 import com.example.marvelapp.R
 import com.example.marvelapp.databinding.FragmentListBinding
 import com.example.marvelapp.list.ListAdapter.Companion.COMIC_VIEW_TYPE
@@ -22,7 +24,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class ListFragment : Fragment(R.layout.fragment_list) {
 
     private lateinit var binding: FragmentListBinding
-    private lateinit var listAdapter: ListAdapter
+    private val listAdapter = ListAdapter(onItemClick = ::navigateToDetail)
     private val viewModel: ListViewModel by viewModel()
 
     override fun onCreateView(
@@ -77,8 +79,6 @@ class ListFragment : Fragment(R.layout.fragment_list) {
     }
 
     private fun setupAdapter() {
-        listAdapter = ListAdapter()
-
         with(binding.recyclerView) {
             scrollToPosition(0)
             setHasFixedSize(true)
@@ -121,6 +121,11 @@ class ListFragment : Fragment(R.layout.fragment_list) {
         } else {
             stopShimmer()
         }
+    }
+
+    private fun navigateToDetail(comic: Comic) {
+        findNavController()
+            .navigate(ListFragmentDirections.actionListFragmentToDetailFragment(comic.id))
     }
 
     companion object {

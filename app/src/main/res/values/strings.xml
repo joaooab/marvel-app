@@ -3,4 +3,8 @@
     <string name="comics_title">Comics</string>
     <string name="error_generic">Something went wrong. Try again</string>
     <string name="try_again">Try again</string>
+    <string name="label_author">Author:</string>
+    <string name="label_publication">Publication date:</string>
+    <string name="label_price">Price:</string>
+    <string name="label_description">Description:</string>
 </resources>
